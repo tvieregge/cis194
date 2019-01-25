@@ -14,14 +14,10 @@ hanoi 0 _ _ _    = []
 hanoi n p1 p2 p3 = hanoi (n-1) p1 p3 p2 ++ [(p1, p3)] ++ hanoi (n-1) p2 p1 p3
 
 parseMessage :: String -> LogMessage
-parseMessage iStr
-    | (length tokens) < 3 = Unknown iStr
-    | "I" == first = LogMessage Info 1 "Info"
-    | "W" == first = LogMessage Warning 1 "Warn"
-    | "E" == first = LogMessage (Error 1) 1 "Err"
-    | otherwise = Unknown iStr
-    where tokens = words iStr
-          first  = head tokens
-
--- getTS :: String -> Int
--- getTS iStr = break (' ' ==) iStr
+parseMessage line = case words line of
+                         ("I":ts:errMsg) -> LogMessage Info (read ts) (unwords errMsg)
+                         ("W":ts:errMsg) -> LogMessage Warning (read ts) (unwords errMsg)
+                         ("E":errNo:ts:errMsg) -> LogMessage (Error (read errNo))
+                                                             (read ts)
+                                                             (unwords errMsg)
+                         _ -> Unknown line
