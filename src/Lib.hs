@@ -1,6 +1,7 @@
 module Lib
     ( hanoi,
-      parseMessage
+      parseMessage,
+      parse
     ) where
 
 -- import           Data
@@ -21,3 +22,6 @@ parseMessage line = case words line of
                                                              (read ts)
                                                              (unwords errMsg)
                          _ -> Unknown line
+
+parse :: String -> [LogMessage]
+parse file = map parseMessage $ lines file

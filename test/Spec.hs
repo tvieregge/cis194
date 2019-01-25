@@ -1,4 +1,5 @@
 import Lib
+import Log
 
 main :: IO ()
 main = do
@@ -7,3 +8,5 @@ main = do
     putStrLn . show $ parseMessage "E 1 1 I'm an error"
     putStrLn . show $ parseMessage "W  1 I'm a warn"
     putStrLn . show $ parseMessage "I  1 I'm an info"
+    log <- testParse parse 10 "test/error.log"
+    putStrLn $ show log
