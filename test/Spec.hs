@@ -1,4 +1,7 @@
 import Lib
 
 main :: IO ()
-main = putStrLn . show $ hanoi 3 "a" "b" "c"
+main = do
+    putStrLn . show $ hanoi 3 "a" "b" "c"
+    putStrLn . show $ parseMessage "ignored"
+    putStrLn . show $ parseMessage "E"
