@@ -65,3 +65,7 @@ main =
             it "finds local maxima" $ do
                 localMaxima [2,9,5,6,1,5] `shouldBe` [9,6]
                 localMaxima' [2,9,5,6,1,5] `shouldBe` [9,6]
+        describe "week 4" $ do
+            it "refactor in an idomatic way" $ do
+                fun1' [3 .. 100] `shouldBe` fun1 [3 .. 100]
+                fun2' 200 `shouldBe` fun2 200
