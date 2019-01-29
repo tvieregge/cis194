@@ -59,3 +59,9 @@ main =
                     tree = foldl (\acc x -> insert x acc) Leaf log
                 tree `shouldBe` ans
                 inOrder tree `shouldBe` inOrdAns
+        describe "code golf!" $ do
+            it "plays hopscotch... sorta" $ do
+                skips "ABCD" `shouldBe` ["ABCD", "BD", "C", "D"]
+            it "finds local maxima" $ do
+                localMaxima [2,9,5,6,1,5] `shouldBe` [9,6]
+                localMaxima' [2,9,5,6,1,5] `shouldBe` [9,6]

@@ -4,9 +4,11 @@ module Lib
     , parse
     , insert
     , inOrder
+    , skips
+    , localMaxima
+    , localMaxima'
     ) where
 
--- import           Data
 import Log
 
 type Peg = String
@@ -39,9 +41,28 @@ insert il@(LogMessage _ insertTs _) (Node left nl@(LogMessage _ nodeTs _) right)
     | insertTs >= nodeTs = Node left nl (insert il right)
     | insertTs <= nodeTs = Node (insert il left) nl right
 
-
 inOrder :: MessageTree -> [LogMessage]
-inOrder mTree = aux mTree [] where
+inOrder mTree = aux mTree []
+  where
     aux :: MessageTree -> [LogMessage] -> [LogMessage]
     aux Leaf = id
     aux (Node left logMsg right) = (aux left) . (logMsg :) . aux right
+
+skips :: [a] -> [[a]]
+skips l = map (\x -> every x l) [1 .. (length l)]
+
+every :: Int -> [a] -> [a]
+every n l =
+    case drop (n - 1) l of
+        [] -> []
+        (x:xs) -> x : (every n xs)
+
+localMaxima :: [Integer] -> [Integer]
+localMaxima (x:y:z:zs)
+    | y > x && y > z = y : localMaxima (y : z : zs)
+    | otherwise = localMaxima (y : z : zs)
+localMaxima _ = []
+
+localMaxima' :: [Integer] -> [Integer]
+localMaxima' (x: r@(y:z:_)) = (if  y > x && y > z then [y] else []) ++ localMaxima r
+
