@@ -39,6 +39,9 @@ insert il@(LogMessage _ insertTs _) (Node left nl@(LogMessage _ nodeTs _) right)
     | insertTs >= nodeTs = Node left nl (insert il right)
     | insertTs <= nodeTs = Node (insert il left) nl right
 
+
 inOrder :: MessageTree -> [LogMessage]
-inOrder Leaf = []
-inOrder (Node left logMsg right) = (inOrder left) ++ [logMsg] ++ inOrder right
+inOrder mTree = aux mTree [] where
+    aux :: MessageTree -> [LogMessage] -> [LogMessage]
+    aux Leaf = id
+    aux (Node left logMsg right) = (aux left) . (logMsg :) . aux right
