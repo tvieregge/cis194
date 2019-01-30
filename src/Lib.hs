@@ -13,9 +13,32 @@ module Lib
     , fun2'
     , foldTree
     , Tree(TNode, TLeaf)
+    , eval
+    , evalStr
+    , Expr(lit, add, mul)
     ) where
 
+import ExprT
 import Log
+import Parser
+
+class Expr a where
+    lit :: Integer -> a
+    add :: a -> a -> a
+    mul :: a -> a -> a
+
+instance Expr ExprT where
+    lit = Lit
+    add = Add
+    mul = Mul
+
+instance Expr Bool where
+    lit n =
+        if n <= 0
+            then False
+            else True
+    add = (||)
+    mul = (&&)
 
 data Tree a
     = TLeaf
@@ -119,3 +142,14 @@ treeInsert x (TNode h left val right)
 height :: Tree a -> Integer
 height TLeaf = -1
 height (TNode h _ _ _) = h
+
+eval :: ExprT -> Integer
+eval (Lit n) = n
+eval (Add left right) = eval left + eval right
+eval (Mul left right) = eval left * eval right
+
+evalStr :: String -> Maybe Integer
+evalStr s =
+    case parseExp Lit Add Mul s of
+        Nothing -> Nothing
+        Just x -> Just $ eval x

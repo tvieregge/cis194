@@ -1,3 +1,5 @@
+import ExprT
+import Parser
 import Lib
 import Log
 import Test.Hspec
@@ -80,3 +82,15 @@ main =
                             'D'
                             (TNode 0 TLeaf 'B' TLeaf)
                 foldTree "ABCD" `shouldBe` ans
+        describe "Week 5, calculator" $ do
+            it "evaluates an expression" $ do
+                eval (Mul (Add (Lit 2) (Lit 3)) (Lit 4)) `shouldBe` 20
+            it "evaluate a string" $ do
+                evalStr "(2+3)*4" `shouldBe` Just 20
+                evalStr "(2++3)*$" `shouldBe` Nothing
+            it "can make ExprT an instance of Expr" $ do
+                mul (add (lit 2) (lit 3)) (lit 4) `shouldBe`
+                    Mul (Add (Lit 2) (Lit 3)) (Lit 4)
+                let testExp = parseExp lit add mul "(3*-4)+5"
+                (testExp :: Maybe Bool) `shouldBe` Just True
+
