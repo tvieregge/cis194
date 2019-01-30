@@ -63,9 +63,20 @@ main =
             it "plays hopscotch... sorta" $ do
                 skips "ABCD" `shouldBe` ["ABCD", "BD", "C", "D"]
             it "finds local maxima" $ do
-                localMaxima [2,9,5,6,1,5] `shouldBe` [9,6]
-                localMaxima' [2,9,5,6,1,5] `shouldBe` [9,6]
+                localMaxima [2, 9, 5, 6, 1, 5] `shouldBe` [9, 6]
+                localMaxima' [2, 9, 5, 6, 1, 5] `shouldBe` [9, 6]
         describe "week 4" $ do
             it "refactor in an idomatic way" $ do
                 fun1' [3 .. 100] `shouldBe` fun1 [3 .. 100]
                 fun2' 200 `shouldBe` fun2 200
+            it "can build a balance binary tree with foldr" $
+                -- terrible test, man valid trees
+                -- replace with isBalanced + contains all elements (once)
+             do
+                let ans =
+                        TNode
+                            2
+                            (TNode 1 (TNode 0 TLeaf 'A' TLeaf) 'C' TLeaf)
+                            'D'
+                            (TNode 0 TLeaf 'B' TLeaf)
+                foldTree "ABCD" `shouldBe` ans

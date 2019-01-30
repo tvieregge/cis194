@@ -11,9 +11,19 @@ module Lib
     , fun1'
     , fun2
     , fun2'
+    , foldTree
+    , Tree(TNode, TLeaf)
     ) where
 
 import Log
+
+data Tree a
+    = TLeaf
+    | TNode Integer
+            (Tree a)
+            a
+            (Tree a)
+    deriving (Show, Eq)
 
 type Peg = String
 
@@ -95,3 +105,17 @@ fun2' = sum . filter even . takeWhile (> 1) . iterate collatz
     collatz n
         | even n = n `div` 2
         | otherwise = 3 * n + 1
+
+foldTree :: [a] -> Tree a
+foldTree xs = foldr treeInsert TLeaf xs
+
+treeInsert :: a -> Tree a -> Tree a
+treeInsert x TLeaf = TNode 0 TLeaf x TLeaf
+treeInsert x (TNode h left val right)
+    | height left == height right = TNode (h + 1) (treeInsert x left) val right
+    | height left > height right = TNode h left val (treeInsert x right)
+    | height right > height left = TNode h (treeInsert x left) val right
+
+height :: Tree a -> Integer
+height TLeaf = -1
+height (TNode h _ _ _) = h
