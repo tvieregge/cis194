@@ -93,4 +93,5 @@ main =
                     Mul (Add (Lit 2) (Lit 3)) (Lit 4)
                 let testExp = parseExp lit add mul "(3*-4)+5"
                 (testExp :: Maybe Bool) `shouldBe` Just True
-
+            it "calculates a stream of fib numbers in O(n)" $ do
+                take 5 fibs2 `shouldBe` [0,1,1,2,3]

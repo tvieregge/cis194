@@ -16,6 +16,7 @@ module Lib
     , eval
     , evalStr
     , Expr(lit, add, mul)
+    , fibs2
     ) where
 
 import ExprT
@@ -153,3 +154,20 @@ evalStr s =
     case parseExp Lit Add Mul s of
         Nothing -> Nothing
         Just x -> Just $ eval x
+
+fib :: Integer -> Integer
+fib 0 = 0
+fib 1 = 1
+fib n = fib (n-1) + fib (n-2)
+
+fibs1 :: [Integer]
+fibs1 = map fib [0 ..]
+
+fib2 :: Integer -> Integer
+fib2 n = go 0 1 n
+    where go prev _ 0 = prev
+          go prev prev2 n = go (prev + prev2) prev  (n-1)
+
+fibs2 :: [Integer]
+fibs2 = 0 : 1 : next fibs2
+    where next (a : rest@(b:_)) = a + b : next rest
