@@ -77,7 +77,7 @@ instance Buffer (JoinList (Score, Size) String) where
     toString = mconcat . jlToList
 
     fromString xs =
-        foldl (\acc x -> acc +++ Single (scoreString x, Size 1) x) Empty $
+        foldr (\x acc -> (Single (scoreString x, Size 1) x) +++ acc) Empty $
         lines xs
 
     line = indexJ
