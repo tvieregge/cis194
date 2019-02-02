@@ -75,11 +75,9 @@ takeJ i j@(Append m jl jr)
 
 instance Buffer (JoinList (Score, Size) String) where
     toString = mconcat . jlToList
-
     fromString xs =
         foldr (\x acc -> (Single (scoreString x, Size 1) x) +++ acc) Empty $
         lines xs
-
     line = indexJ
     replaceLine n l b = takeJ n b +++ fromString l +++ dropJ (n + 1) b
     numLines = getSize . snd . tag
