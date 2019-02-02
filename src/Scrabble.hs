@@ -51,3 +51,5 @@ score c = Score $ Data.Map.findWithDefault 0 (toUpper c) scores
 scoreString :: String -> Score
 scoreString = mconcat . Prelude.map score
 
+getScore :: Score -> Int
+getScore (Score i) = i
