@@ -3,7 +3,7 @@ import JoinList
 import Lib
 import Log
 import Parser
-import Party
+import qualified Party as P
 import Test.Hspec
 
 main :: IO ()
