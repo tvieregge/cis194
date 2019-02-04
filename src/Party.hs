@@ -4,6 +4,7 @@ module Party where
 
 import Employee
 import Data.Tree
+import Data.List
 
 glCons :: Employee -> GuestList -> GuestList
 glCons e@(Emp {empFun = ef}) (GL es glf) = GL (e : es) (ef + glf)
@@ -34,3 +35,13 @@ maxFun :: Tree Employee -> GuestList
 maxFun t = uncurry max res
   where
     res = treeFold nextLevel t
+
+format :: GuestList -> String
+format (GL emps fun) = funLine ++ (mconcat $ sort names)
+    where funLine = "Total fun: " ++ show fun ++ "\n"
+          names = foldr (\x acc -> formatEmp x : acc) [] emps
+          formatEmp e = (show $ empName e) ++ "\n"
+
+main :: IO()
+main = readFile "test/company.txt" >>= readFn
+    where readFn s = putStrLn . format . maxFun $ read s
