@@ -32,23 +32,21 @@ testCompany =
 
 testCompany2 :: Tree Employee
 testCompany2 =
-    Node
-        (Emp "Stan" 9)
-        [ Node
-              (Emp "Bob" 3) -- (8, 8)
-              [ Node
-                    (Emp "Joe" 5) -- (5, 6)
+    Node (Emp "Stan" 9)
+        [ Node (Emp "Bob" 3) -- (8, 8)
+              [ Node (Emp "Joe" 5) -- (5, 6)
                     [ Node (Emp "John" 1) [] -- (1, 0)
-                    , Node (Emp "Sue" 5) [] -- (5, 0)
-                    ]
-              , Node (Emp "Fred" 3) [] -- (3, 0)
-              ]
-        , Node
-              (Emp "Sarah" 17) -- (17, 4)
-              [ Node (Emp "Sam" 4) [] -- (4, 0)
-              ]
+                    , Node (Emp "Sue" 5) []] -- (5, 0)
+              , Node (Emp "Fred" 7) []] -- (3, 0)
+        , Node (Emp "Sarah" 17) -- (17, 4)
+              [ Node (Emp "Sam" 4) []] -- (4, 0)
         ]
 
+tc3 = Node (Emp "Bob" 3) -- (8, 8)
+              [ Node (Emp "Joe" 5) -- (5, 6)
+                    [ Node (Emp "John" 1) [] -- (1, 0)
+                    , Node (Emp "Sue" 5) []] -- (5, 0)
+              , Node (Emp "Fred" 7) []] -- (3, 0)
 -- A type to store a list of guests and their total fun score.
 data GuestList =
     GL [Employee]
