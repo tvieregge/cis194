@@ -42,6 +42,6 @@ format (GL emps fun) = funLine ++ (mconcat $ sort names)
           names = foldr (\x acc -> formatEmp x : acc) [] emps
           formatEmp e = (show $ empName e) ++ "\n"
 
-main :: IO()
-main = readFile "test/company.txt" >>= readFn
-    where readFn s = putStrLn . format . maxFun $ read s
+-- main :: IO()
+-- main = readFile "test/company.txt" >>= readFn
+--     where readFn s = putStrLn . format . maxFun $ read s
