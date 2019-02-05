@@ -58,8 +58,9 @@ posInt = Parser f
 -- Your code goes below here
 ------------------------------------------------------------
 
+-- fmap :: (a -> b) -> f a -> f b
 instance Functor Parser where
-    fmap f p = Parser (\s -> Nothing)
+    fmap f (Parser pf) = Parser (fmap (fmap (first f)) pf)
 
 first :: (a -> b) -> (a,c) -> (b,c)
 first f (x,y) = (f x, y)
