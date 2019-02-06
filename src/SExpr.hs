@@ -39,8 +39,21 @@ data Atom
     | I Ident
     deriving (Show)
 
+atom :: Parser Atom
+atom = (N <$> posInt) <|> (I <$> ident)
+
 -- An S-expression is either an atom, or a list of S-expressions.
 data SExpr
     = A Atom
     | Comb [SExpr]
     deriving (Show)
+
+sExpr :: Parser SExpr
+sExpr = (A <$> atom) <|>
+             (Comb <$> (catchBraces $ oneOrMore (catchSpaces sExpr)))
+
+catchSpaces :: Parser a -> Parser a
+catchSpaces p = spaces *> p <* spaces
+
+catchBraces :: Parser a -> Parser a
+catchBraces p = char '(' *> p <* char ')'
