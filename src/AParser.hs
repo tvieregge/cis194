@@ -1,10 +1,15 @@
 {- CIS 194 HW 10
    due Monday, 1 April
 -}
-module AParser where
+module AParser
+    ( Parser
+    , runParser
+    , satisfy
+    , char
+    , posInt
+    ) where
 
 import Control.Applicative
-
 import Data.Char
 
 -- A parser for a value of type a is a function which takes a String
@@ -75,13 +80,13 @@ instance Applicative Parser where
                      Just (f, str') -> runParser (f <$> xp) str')
 
 abParser :: Parser (Char, Char)
-abParser = (\a b -> (a,b)) <$> char 'a' <*> char 'b'
+abParser = (\a b -> (a, b)) <$> char 'a' <*> char 'b'
 
 abParser_ :: Parser ()
 abParser_ = (\a b -> ()) <$> char 'a' <*> char 'b'
 
 intPair :: Parser [Integer]
-intPair = (\x y z -> [x,z]) <$> posInt <*> char ' ' <*> posInt
+intPair = (\x y z -> [x, z]) <$> posInt <*> char ' ' <*> posInt
 
 instance Alternative Parser where
     empty = Parser (const Nothing)
