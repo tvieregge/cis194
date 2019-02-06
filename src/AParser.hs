@@ -77,9 +77,11 @@ instance Applicative Parser where
 abParser :: Parser (Char, Char)
 abParser = (\a b -> (a,b)) <$> char 'a' <*> char 'b'
 
-
 abParser_ :: Parser ()
 abParser_ = (\a b -> ()) <$> char 'a' <*> char 'b'
 
 intPair :: Parser [Integer]
 intPair = (\x y z -> [x,z]) <$> posInt <*> char ' ' <*> posInt
+
+instance Alternative Parser where
+    empty = Parser (const Nothing)
