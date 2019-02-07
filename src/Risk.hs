@@ -49,6 +49,18 @@ battle (Battlefield att def) = do
     attRoll <- roll 3 att
     defRoll <- roll 2 def
     let (a, d) = foldr battleResults (0, 0) $ zip attRoll defRoll
-    return (Battlefield (att-a) (def-d))
+    return (Battlefield (att + a) (def + d))
   where
     roll armySize army = (sortBy (flip compare)) <$> (rollN $ min armySize army)
+
+invade :: Battlefield -> Rand StdGen Battlefield
+invade b
+    | attackers b < 2 || defenders b <= 0 = return b
+    | otherwise = (battle b) >>= invade
+
+successProb :: Battlefield -> Rand StdGen Double
+successProb b = do
+    let numBattles = 1000
+    battles <- replicateM numBattles (invade b)
+    let attackersWin = length . filter (\b -> defenders b == 0) $ battles
+    return (fromIntegral attackersWin / fromIntegral numBattles)
